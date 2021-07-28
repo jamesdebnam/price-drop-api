@@ -6,7 +6,11 @@ type Prices = {
   Simple 'fake' db implementation, which stores lowest price for each product (referenced by productId)
  */
 export class PriceDB {
-  private prices: Prices = {};
+  readonly prices: Prices;
+
+  constructor(prices = {}) {
+    this.prices = prices;
+  }
 
   getPrice = (productId: string): number | undefined => {
     return this.prices[productId];
