@@ -21,7 +21,7 @@ export function validate(schema: ObjectSchema) {
         .join(", ");
       return next(new ApiError(httpStatus.BAD_REQUEST, errorMessage));
     }
-    Object.assign(req, value);
+    Object.assign(req.body, value);
     return next();
   };
 }
