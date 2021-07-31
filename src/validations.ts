@@ -3,7 +3,6 @@ import Joi, { ObjectSchema } from "joi";
 import { Request, Response, NextFunction } from "express";
 import { ApiError } from "./middlewares";
 import httpStatus from "http-status";
-import { pickKeys } from "./util";
 
 /**
  * Takes in a Joi object schema, and throws an Api error if the request
@@ -30,7 +29,7 @@ export function validate(schema: ObjectSchema) {
 // I've made the assumption that we need at least one price in the request
 // so I don't need to worry about it later
 export const validatePriceDrop = Joi.object({
-  productId: Joi.string(),
+  productId: Joi.string().required(),
   retailers: Joi.array()
     .items(
       Joi.object({
@@ -40,5 +39,6 @@ export const validatePriceDrop = Joi.object({
         discountPrice: Joi.number(),
       })
     )
-    .min(1),
+    .min(1)
+    .required(),
 });

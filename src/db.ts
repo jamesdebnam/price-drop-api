@@ -1,4 +1,4 @@
-type Prices = {
+export type Prices = {
   [productId: string]: number;
 };
 
@@ -6,9 +6,9 @@ type Prices = {
   Simple 'fake' db implementation, which stores lowest price for each product (referenced by productId)
  */
 export class PriceDB {
-  readonly prices: Prices;
+  private prices: Prices;
 
-  constructor(prices = {}) {
+  constructor(prices: Prices = {}) {
     this.prices = prices;
   }
 
@@ -18,5 +18,15 @@ export class PriceDB {
 
   setPrice = (productId: string, price: number): void => {
     this.prices[productId] = price;
+  };
+
+  // Used for testing
+  seedPrices = (seed: Prices) => {
+    this.prices = seed;
+  };
+
+  // Used for testing
+  clearPrices = () => {
+    this.prices = {};
   };
 }

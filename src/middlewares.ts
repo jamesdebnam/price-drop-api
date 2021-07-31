@@ -32,7 +32,7 @@ export function errorMiddleware(
     }
     res.json({
       error: error.message,
-         stack: error.stack ,
+      stack: error.stack,
     });
   }
 }

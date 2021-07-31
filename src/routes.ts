@@ -1,9 +1,7 @@
 import express, { Request, Response } from "express";
 import { validate, validatePriceDrop } from "./validations";
-import { PriceDB } from "./db";
+import { PriceDB, Prices } from "./db";
 import { findLowestPrice } from "./util";
-
-const db = new PriceDB();
 
 type PriceDropResult = {
   alertRequired: boolean;
@@ -12,7 +10,8 @@ type PriceDropResult = {
   productId?: string;
 };
 
-function getRoutes() {
+function getRoutes(dbSeed: PriceDB) {
+  const db = dbSeed || new PriceDB();
   const router = express.Router();
 
   router.get(
@@ -24,7 +23,7 @@ function getRoutes() {
       const savedPrice = db.getPrice(productId);
       db.setPrice(productId, lowestPrice.price);
 
-      if (savedPrice) {
+      if (savedPrice && lowestPrice) {
         const diff = savedPrice - lowestPrice.price;
         if (diff > 10) {
           return res.send({
